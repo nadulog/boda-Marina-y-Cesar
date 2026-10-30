@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>César &amp; Marina</title>
+<meta name="description" content="Queremos compartir con vos uno de los días más felices de nuestras vidas. Te esperamos el 15 de enero de 2027 🤍">
+<meta property="og:type" content="website">
+<meta property="og:title" content="César & Marina · ¡Nos casamos!">
+<meta property="og:description" content="Queremos compartir con vos uno de los días más felices de nuestras vidas. Te esperamos el 15 de enero de 2027 🤍">
+<meta name="theme-color" content="#efe7db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --oro: #8d6c43;
+    --oro-claro: #b08d5e;
+    --tinta: #5a4632;
+    --papel: #f3eee6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: #e7ded1;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    color: var(--tinta);
+  }
+  main {
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--papel);
+    box-shadow: 0 0 40px rgba(90,70,50,.18);
+    overflow: hidden;
+    container-type: inline-size;
+  }
+
+  /* Cada pieza: imagen a ancho completo + capa de elementos posicionados en % */
+  .pieza {
+    position: relative;
+    container-type: inline-size;
+    line-height: 0;
+  }
+  .pieza > img { width: 100%; height: auto; display: block; }
+  .hot {
+    position: absolute;
+    display: block;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 999px;
+  }
+
+  /* Piezas pegadas: cada una se monta 1px sobre la anterior para que no aparezca línea de corte */
+  .pieza + .pieza { margin-top: -1px; }
+
+  /* Fundido entre piezas: cada una se monta 8cqw sobre la anterior y su borde superior se disuelve */
+  .pieza.funde {
+    margin-top: -8cqw;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 8cqw);
+    mask-image: linear-gradient(to bottom, transparent, #000 8cqw);
+  }
+
+  /* Portada: entra con un fundido lento */
+  .portada > img { animation: aparece 1.8s ease-out both; }
+  @keyframes aparece {
+    from { opacity: 0; transform: scale(1.03); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Invitados: las dos frases y los nombres van como texto vivo */
+  .inv-frase {
+    position: absolute;
+    left: 0; right: 0;
+    transform: translateY(-50%);
+    text-align: center;
+    line-height: 1;
+    font-weight: 500;
+    font-size: 3.05cqw;
+    letter-spacing: .34em;
+    text-indent: .34em;
+    color: var(--oro);
+    white-space: nowrap;
+  }
+  .inv-frase.arriba { top: 29.4%; }
+  .inv-frase.abajo  { top: 67.6%; }
+  .inv-nombre {
+    position: absolute;
+    left: 9%; right: 9%;
+    top: 37%; height: 24%;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    line-height: 1.12;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 10.5cqw;
+    color: var(--tinta);
+  }
+  .inv-nombre:not(:empty)::after {
+    content: "";
+    position: absolute;
+    left: 50%; bottom: 8%;
+    width: 12cqw; height: 1px;
+    transform: translateX(-50%);
+    background: var(--oro-claro);
+    opacity: .7;
+  }
+
+  /* Cuenta regresiva */
+  .cd {
+    position: absolute;
+    top: 46.3%;
+    width: 22%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    line-height: 1;
+    font-weight: 300;
+    font-size: 15.4cqw;
+    color: var(--oro);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .cd.cambia { animation: cambia .55s ease-out; }
+  @keyframes cambia {
+    from { opacity: 0; transform: translate(-50%, -62%); }
+    to   { opacity: 1; transform: translate(-50%, -50%); }
+  }
+
+  /* Vinilo: el disco se dibuja "de frente" (dorado cepillado, surcos y línea interior) y la perspectiva
+     del tocadiscos se rehace con rotate + scaleY. Gira entero con la etiqueta C M. */
+  .disco {
+    position: absolute;
+    left: 80.765%; top: 70.066%;
+    width: 104.36%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%) rotate(5deg) scaleY(.84);
+    pointer-events: none;
+  }
+  .vinilo {
+    position: relative;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background:
+      /* línea dorada interior */
+      radial-gradient(circle closest-side, transparent 48.7%, rgba(176,134,84,.9) 49%, rgba(176,134,84,.9) 49.35%, transparent 49.65%),
+      /* aro de luz alrededor de la etiqueta */
+      radial-gradient(circle closest-side, rgba(255,251,245,.55) 32%, rgba(255,251,245,0) 36.5%),
+      /* bisel del borde */
+      radial-gradient(circle closest-side, transparent 97.6%, rgba(150,112,70,.45) 99%, rgba(255,248,236,.5) 100%),
+      /* surcos (muy sutiles) */
+      repeating-radial-gradient(circle, rgba(150,112,70,.035) 0 .8px, rgba(255,252,246,.045) .8px 2.2px),
+      /* reflejos dorados: lóbulos de distinto ancho para que el giro se note */
+      conic-gradient(from 20deg,
+        #e3cfb6, #f0e3d2 5%, #fbf6ef 10%, #fffcf7 12%, #f6ecdf 15%, #ead8c2 21%, #dfc8ab 30%,
+        #e6d3bb 36%, #f3e8da 40%, #e5d1b8 44%, #dcc4a6 50%,
+        #ecdcc8 56%, #faf3ea 61%, #fefaf3 63.5%, #f4e9db 67%, #e8d5bf 73%, #dbc2a3 82%,
+        #e8d6c0 88%, #f5ebde 91%, #e7d4bd 95%, #e3cfb6);
+    animation: gira 4s linear infinite;
+  }
+  .vinilo img {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 32.18%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(176,134,84,.25);
+  }
+  @keyframes gira { to { transform: rotate(360deg); } }
+  /* Eje (en el centro exacto de giro), brazo y púa: fijos encima del disco */
+  .pieza > img.fijo {
+    position: absolute;
+    pointer-events: none;
+  }
+  .fijo.eje     { left: 77.577%; top: 68.152%; width: 6.376%; }
+  .fijo.brazo   { left: 92.243%; top: 43.541%; width: 7.758%; }
+  .fijo.capsula { left: 76.939%; top: 72.488%; width: 23.061%; filter: drop-shadow(-1.2cqw 1.4cqw 1.2cqw rgba(90,62,32,.28)); }
+  .fijo.brazo   { filter: drop-shadow(-1cqw .8cqw 1cqw rgba(90,62,32,.22)); }
+
+  /* Texto del botón de música (reemplaza al "REPRODUCIR" de la imagen) */
+  .btn-texto {
+    position: absolute;
+    left: 36.98%; top: 38.97%;
+    transform: translate(-50%, -50%);
+    line-height: 1;
+    font-weight: 500;
+    font-size: 3.15cqw;
+    letter-spacing: .26em;
+    text-indent: .26em;
+    color: #6f5843;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* Ondas doradas al tocar un botón */
+  .onda {
+    position: absolute;
+    width: 20px; height: 20px;
+    margin: -10px 0 0 -10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(176,141,94,.5) 0%, rgba(176,141,94,.2) 45%, rgba(176,141,94,0) 70%);
+    pointer-events: none;
+    animation: onda .7s ease-out forwards;
+  }
+  @keyframes onda {
+    from { transform: scale(0); opacity: 1; }
+    to   { transform: scale(18); opacity: 0; }
+  }
+
+  /* Destello que recorre el botón de confirmar */
+  .brillo {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 35%, rgba(255,246,228,.55) 50%, transparent 65%) no-repeat;
+    background-size: 250% 100%;
+    animation: brillo 4.5s ease-in-out infinite;
+  }
+  @keyframes brillo {
+    0%        { background-position: 130% 0; }
+    45%, 100% { background-position: -30% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portada > img, .cd.cambia, .brillo { animation: none; }
+    .vinilo { animation-duration: 12s; }
+  }
+
+  /* Botón flotante de música */
+  .btn-musica {
+    position: fixed;
+    right: max(16px, calc(50vw - 240px + 16px));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 40;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(176,141,94,.7);
+    background: rgba(250,246,240,.9);
+    color: var(--oro);
+    font-size: 21px; line-height: 1;
+    display: none; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(90,70,50,.22);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-musica.visible { display: flex; }
+  .btn-musica.pausada { opacity: .6; text-decoration: line-through; }
+
+  /* Modal datos bancarios */
+  .modal {
+    position: fixed; inset: 0;
+    z-index: 50;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 20px 16px;
+    background: rgba(60,46,32,.55);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+  }
+  .modal.abierto { opacity: 1; visibility: visible; }
+  .modal .tarjeta {
+    position: relative;
+    width: min(100%, 400px, calc((100dvh - 80px) * 1024 / 1536));
+    line-height: 0;
+    transform: translateY(16px) scale(.97);
+    transition: transform .35s ease;
+    box-shadow: 0 20px 50px rgba(40,30,20,.35);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .modal.abierto .tarjeta { transform: none; }
+  .modal .tarjeta img { width: 100%; display: block; }
+  .modal .tarjeta .hot { border-radius: 4px; }
+  .modal .ayuda {
+    margin-top: 14px;
+    font-size: 16px;
+    font-style: italic;
+    letter-spacing: .06em;
+    color: #f7f1e8;
+  }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 32px;
+    z-index: 60;
+    transform: translate(-50%, 20px);
+    background: var(--tinta); color: var(--papel);
+    padding: 10px 20px;
+    font-size: 17px; letter-spacing: .08em;
+    border-radius: 2px;
+    white-space: nowrap;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s, transform .25s;
+  }
+  .toast.visible { opacity: 1; transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+
+<audio id="musica" src="assets/musica.mp3" loop preload="auto"></audio>
+<button class="btn-musica" id="btnMusica" aria-label="Pausar música">&#9835;</button>
+
+<main>
+
+  <!-- 1. Portada -->
+  <section class="pieza portada">
+    <img src="assets/01-portada.jpg" alt="Nos casamos · César & Marina">
+  </section>
+
+  <!-- 2. Invitados -->
+  <section class="pieza funde">
+    <img src="assets/02-invitados.jpg" alt="">
+    <p class="inv-frase arriba">ESTA INVITACIÓN ES PARA</p>
+    <div class="inv-nombre" id="nombres-invitados"></div>
+    <p class="inv-frase abajo" id="cantidad-lugares"></p>
+  </section>
+
+  <!-- 3. Cuenta regresiva -->
+  <section class="pieza funde">
+    <img src="assets/03-cuenta.jpg" alt="Cuenta regresiva" loading="lazy">
+    <div class="cd" style="left:13.97%" id="cdDias">00</div>
+    <div class="cd" style="left:37.94%" id="cdHoras">00</div>
+    <div class="cd" style="left:62.17%" id="cdMin">00</div>
+    <div class="cd" style="left:86.4%"  id="cdSeg">00</div>
+  </section>
+
+  <!-- 4. Ceremonia -->
+  <section class="pieza funde">
+    <img src="assets/04-ceremonia.jpg" alt="Ceremonia · Parroquia Nuestra Señora de la Guardia · 15 de enero de 2027 · 20 hs" loading="lazy">
+    <a class="hot" data-link="ceremonia" target="_blank" rel="noopener" aria-label="Cómo llegar a la ceremonia"
+       style="left:28.16%; top:76.32%; width:43.89%; height:5.8%"></a>
+  </section>
+
+  <!-- 5. Celebración -->
+  <section class="pieza funde">
+    <img src="assets/05-celebracion.jpg" alt="Celebración · Palacio Sans Souci · Luego de la ceremonia · Paz 705, Victoria, Bs. As." loading="lazy">
+    <a class="hot" data-link="celebracion" target="_blank" rel="noopener" aria-label="Cómo llegar a la celebración"
+       style="left:28.16%; top:87.98%; width:43.89%; height:5.74%"></a>
+  </section>
+
+  <!-- 6. Dress code -->
+  <section class="pieza funde">
+    <img src="assets/06-dresscode.jpg" alt="Dress code: Elegante. Evitar colores: blanco y pastel" loading="lazy">
+  </section>
+
+  <!-- 7. Regalos -->
+  <section class="pieza funde">
+    <img src="assets/07-regalos.jpg" alt="Regalos · Si desean hacernos un regalo, pueden hacerlo mediante transferencia bancaria" loading="lazy">
+    <button class="hot" id="abrirRegalos" aria-label="Ver datos bancarios"
+       style="left:23.5%; top:62.5%; width:56%; height:5.4%; border-radius:4px"></button>
+  </section>
+
+  <!-- 8. Música -->
+  <section class="pieza funde">
+    <img src="assets/08-musica.jpg" alt="Música · Dale play a nuestra historia" loading="lazy">
+    <div class="disco" aria-hidden="true"><div class="vinilo"><img src="assets/vinilo-etiqueta.png" alt=""></div></div>
+    <img class="fijo eje" src="assets/vinilo-eje.png" alt="" aria-hidden="true">
+    <img class="fijo brazo" src="assets/vinilo-brazo.png" alt="" aria-hidden="true">
+    <img class="fijo capsula" src="assets/vinilo-capsula.png" alt="" aria-hidden="true">
+    <span class="btn-texto" aria-hidden="true">AGREGAR MÚSICA</span>
+    <a class="hot" data-link="musica" target="_blank" rel="noopener" aria-label="Agregar música a nuestra playlist compartida en Spotify"
+       style="left:12.11%; top:36.06%; width:49.63%; height:6.58%; border-radius:6px"></a>
+  </section>
+
+  <!-- 9. Confirmación de asistencia -->
+  <section class="pieza funde">
+    <img src="assets/09-confirmacion.jpg" alt="¿Nos acompañás? Confirmá tu asistencia antes del 15 de noviembre" loading="lazy">
+    <a class="hot" id="boton-confirmar" href="#" target="_blank" rel="noopener" aria-label="Confirmar asistencia"
+       style="left:19.77%; top:63.94%; width:59.83%; height:7.12%"><span class="brillo"></span></a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="pieza funde">
+    <img src="assets/10-footer.jpg" alt="Hecho con amor por Bloomdate" loading="lazy">
+    <a class="hot" data-link="whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp Bloomdate"
+       style="left:32%; top:41%; width:9.17%; height:18%"></a>
+    <a class="hot" data-link="instagram" target="_blank" rel="noopener" aria-label="Instagram Bloomdate"
+       style="left:45.25%; top:41%; width:9.17%; height:18%"></a>
+    <a class="hot" data-link="web" target="_blank" rel="noopener" aria-label="Web Bloomdate"
+       style="left:58.58%; top:41%; width:9.17%; height:18%"></a>
+  </footer>
+
+</main>
+
+<!-- Modal datos bancarios -->
+<div class="modal" id="modalRegalos" role="dialog" aria-modal="true" aria-label="Datos bancarios">
+  <div class="tarjeta">
+    <img src="assets/07-regalos-modal.jpg" alt="Datos bancarios. Pesos: alias MYCBODA.PESOS, CBU 0070364030004005267135, CUIL 20-29850222-5, N.º de cuenta 400526713643. Dólares: alias MYCBODA.DOLAR, CBU 0070364031004005070989, CUIL 20-29850222-5, N.º de cuenta 400507093648. Titular: César Omar Rossi.">
+    <button class="hot" id="cerrarRegalos" aria-label="Cerrar"
+       style="left:79.9%; top:10.94%; width:7.81%; height:5.21%"></button>
+    <button class="hot" data-copiar="MYCBODA.PESOS" data-nombre="Alias" style="left:17.6%; top:30.96%; width:64.5%; height:3.52%"></button>
+    <button class="hot" data-copiar="0070364030004005267135" data-nombre="CBU" style="left:17.6%; top:34.67%; width:64.5%; height:3.52%"></button>
+    <button class="hot" data-copiar="20-29850222-5" data-nombre="CUIL" style="left:17.6%; top:38.48%; width:64.5%; height:3.52%"></button>
+    <button class="hot" data-copiar="400526713643" data-nombre="N.º de cuenta" style="left:17.6%; top:42.29%; width:64.5%; height:3.52%"></button>
+    <button class="hot" data-copiar="MYCBODA.DOLAR" data-nombre="Alias" style="left:17.6%; top:56.9%; width:64.5%; height:3.52%"></button>
+    <button class="hot" data-copiar="0070364031004005070989" data-nombre="CBU" style="left:17.6%; top:60.74%; width:64.5%; height:3.52%"></button>
+    <button class="hot" data-copiar="20-29850222-5" data-nombre="CUIL" style="left:17.6%; top:64.52%; width:64.5%; height:3.52%"></button>
+    <button class="hot" data-copiar="400507093648" data-nombre="N.º de cuenta" style="left:17.6%; top:68.36%; width:64.5%; height:3.52%"></button>
+  </div>
+  <p class="ayuda">Tocá un dato para copiarlo</p>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+  // ===== Configuración =====
+  const EVENTO = new Date('2027-01-15T20:00:00-03:00');
+  const LINKS = {
+    ceremonia:   'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Parroquia Nuestra Señora de la Guardia, Victoria, San Fernando, Buenos Aires'),
+    celebracion: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Palacio Sans Souci, Paz 705, Victoria, Buenos Aires'),
+    musica:      'https://open.spotify.com/playlist/6OTZqdJFjTqrqwiRtYFs3E?si=m9T_FAojQAOIIrbRw5pOig&pi=d7LS_VEpSfKX1&pt=389ade531883309965b67dff1197669f',
+    whatsapp:    'https://wa.me/541140436324',
+    instagram:   'https://www.instagram.com/bloomdate.invitaciones/',
+    web:         'https://bloomdate-site.netlify.app/'
+  };
+
+  document.querySelectorAll('[data-link]').forEach(a => {
+    a.href = LINKS[a.dataset.link] || '#';
+  });
+
+  // ===== Cuenta regresiva =====
+  const cd = {
+    d: document.getElementById('cdDias'),
+    h: document.getElementById('cdHoras'),
+    m: document.getElementById('cdMin'),
+    s: document.getElementById('cdSeg')
+  };
+  function tick() {
+    let diff = Math.max(0, EVENTO - Date.now()) / 1000;
+    const d = Math.floor(diff / 86400); diff -= d * 86400;
+    const h = Math.floor(diff / 3600);  diff -= h * 3600;
+    const m = Math.floor(diff / 60);
+    const s = Math.floor(diff - m * 60);
+    poner(cd.d, String(d).padStart(2, '0'));
+    poner(cd.h, String(h).padStart(2, '0'));
+    poner(cd.m, String(m).padStart(2, '0'));
+    poner(cd.s, String(s).padStart(2, '0'));
+  }
+  // solo anima el número que cambió
+  function poner(el, valor) {
+    if (el.textContent === valor) return;
+    el.textContent = valor;
+    el.classList.remove('cambia');
+    void el.offsetWidth;
+    el.classList.add('cambia');
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ===== Modal regalos =====
+  const modal = document.getElementById('modalRegalos');
+  const toast = document.getElementById('toast');
+  const abrir = () => { modal.classList.add('abierto'); document.body.style.overflow = 'hidden'; };
+  const cerrar = () => { modal.classList.remove('abierto'); document.body.style.overflow = ''; };
+  document.getElementById('abrirRegalos').addEventListener('click', abrir);
+  document.getElementById('cerrarRegalos').addEventListener('click', cerrar);
+  modal.addEventListener('click', e => { if (e.target === modal || e.target.classList.contains('ayuda')) cerrar(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrar(); });
+
+  let toastTimer;
+  document.querySelectorAll('[data-copiar]').forEach(b => b.addEventListener('click', async () => {
+    const texto = b.dataset.copiar;
+    try {
+      await navigator.clipboard.writeText(texto);
+    } catch {
+      const t = document.createElement('textarea');
+      t.value = texto; document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); } catch {}
+      t.remove();
+    }
+    toast.textContent = b.dataset.nombre + ' copiado';
+    toast.classList.add('visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('visible'), 1800);
+  }));
+
+  // ===== Ondas al tocar botones =====
+  document.querySelectorAll('.hot').forEach(b => b.addEventListener('pointerdown', e => {
+    const r = b.getBoundingClientRect();
+    const o = document.createElement('span');
+    o.className = 'onda';
+    o.style.left = (e.clientX - r.left) + 'px';
+    o.style.top = (e.clientY - r.top) + 'px';
+    b.appendChild(o);
+    setTimeout(() => o.remove(), 750);
+  }));
+
+  // ===== Confirmar asistencia =====
+  // Sin token el link queda en "#": no abre nada.
+  document.getElementById('boton-confirmar').addEventListener('click', e => {
+    if (e.currentTarget.getAttribute('href') === '#') e.preventDefault();
+  });
+
+  // ===== Música =====
+  // Arranca con el primer toque en la invitación (los celulares no permiten reproducir sin un gesto)
+  const audio = document.getElementById('musica');
+  const btnMusica = document.getElementById('btnMusica');
+  let pausadaAMano = false;
+  function sonar() {
+    audio.play().then(() => btnMusica.classList.add('visible')).catch(() => {});
+  }
+  function primerToque(e) {
+    if (e.target.closest('#btnMusica')) return;
+    if (!pausadaAMano) sonar();
+  }
+  document.addEventListener('pointerdown', primerToque, { once: true });
+  btnMusica.addEventListener('click', () => {
+    if (audio.paused) { pausadaAMano = false; audio.play(); } else { pausadaAMano = true; audio.pause(); }
+  });
+  audio.addEventListener('play', () => { btnMusica.classList.remove('pausada'); btnMusica.setAttribute('aria-label', 'Pausar música'); });
+  audio.addEventListener('pause', () => { btnMusica.classList.add('pausada'); btnMusica.setAttribute('aria-label', 'Reproducir música'); });
+  // si el celular se bloquea o cambia de app, pausar
+  document.addEventListener('visibilitychange', () => { if (document.hidden && !audio.paused) audio.pause(); });
+</script>
+
+<!-- Personalización de invitados por token (?invite=<token>) -->
+<script>
+(function () {
+  var SUPABASE_URL = "https://fotugzhxlajyjdnjteld.supabase.co";
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZvdHVnemh4bGFqeWpkbmp0ZWxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyNDY2MzAsImV4cCI6MjA4MDgyMjYzMH0.GnEzF-iJuiZJH5IVUgszWOq5qv4AeHfFf8Y3_YRW5FA";
+  var RSVP_BASE = "https://bloomdate-rsvp.netlify.app";
+
+  function formatNames(names) {
+    if (names.length === 1) return names[0];
+    return names.slice(0, -1).join(", ") + " y " + names[names.length - 1];
+  }
+
+  async function initInvitation() {
+    var token = new URLSearchParams(window.location.search).get("invite");
+    if (!token) return;
+
+    try {
+      var response = await fetch(SUPABASE_URL + "/rest/v1/rpc/get_invite_by_token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify({ p_token: token })
+      });
+
+      if (!response.ok) return;
+      var rows = await response.json();
+      var invite = rows && rows[0];
+      if (!invite) return;
+
+      var companions = invite.companions || [];
+      var names = [invite.first_name].concat(
+        companions.map(function (companion) { return companion.first_name; })
+      ).filter(Boolean);
+      if (!names.length) return;
+
+      var namesEl = document.getElementById("nombres-invitados");
+      if (namesEl) namesEl.textContent = formatNames(names);
+
+      // Frase del diseño ("Reservamos ___ lugares para ustedes") escrita por código, en singular o plural
+      var totalPasses = 1 + companions.length;
+      var passesEl = document.getElementById("cantidad-lugares");
+      if (passesEl) {
+        passesEl.textContent = totalPasses === 1
+          ? "RESERVAMOS 1 LUGAR PARA VOS"
+          : "RESERVAMOS " + totalPasses + " LUGARES PARA USTEDES";
+      }
+
+      var confirmBtn = document.getElementById("boton-confirmar");
+      if (confirmBtn && invite.event_slug) {
+        confirmBtn.href = RSVP_BASE + "/r/" + encodeURIComponent(invite.event_slug) + "?invite=" + encodeURIComponent(token);
+      }
+    } catch (_error) {
+      return;
+    }
+  }
+
+  initInvitation();
+})();
+</script>
+</body>
+</html>
