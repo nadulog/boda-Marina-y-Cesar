@@ -4,10 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>César &amp; Marina</title>
-<meta name="description" content="Queremos compartir con vos uno de los días más felices de nuestras vidas. Te esperamos el 15 de enero de 2027 🤍">
+<meta name="description" content="Con el corazón lleno de alegría queremos que seas parte del día en que unimos nuestras vidas. Te esperamos el 15 de enero de 2027 🤍">
 <meta property="og:type" content="website">
 <meta property="og:title" content="César & Marina · ¡Nos casamos!">
-<meta property="og:description" content="Queremos compartir con vos uno de los días más felices de nuestras vidas. Te esperamos el 15 de enero de 2027 🤍">
+<meta property="og:description" content="Con el corazón lleno de alegría queremos que seas parte del día en que unimos nuestras vidas. Te esperamos el 15 de enero de 2027 🤍">
+<!-- La imagen se sirve desde el repositorio público de GitHub: funciona sea cual sea el dominio de Netlify -->
+<meta property="og:image" content="https://raw.githubusercontent.com/nadulog/boda-Marina-y-Cesar/main/assets/og-preview.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="og:image:alt" content="César & Marina · 15 de enero de 2027">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#efe7db">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -227,25 +234,134 @@
     .vinilo { animation-duration: 12s; }
   }
 
-  /* Botón flotante de música */
+  /* Intro: el papel con ondas de la invitación a pantalla completa, con los nombres y la elección de música */
+  body.con-intro { overflow: hidden; }
+  .intro {
+    position: fixed; inset: 0;
+    z-index: 80;
+    overflow: hidden;
+    background: url("assets/02-invitados.jpg") center / cover no-repeat var(--papel);
+    transition: opacity .9s ease .25s, visibility .9s .25s;
+  }
+  /* Al entrar: primero se van los textos, después la intro se desvanece hacia el papel */
+  .intro.abriendo { opacity: 0; visibility: hidden; }
+  .intro .contenido {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 24px;
+    text-align: center;
+    transition: opacity .35s;
+    animation: aparece-intro 1.6s ease-out both;
+  }
+  .intro.abriendo .contenido { opacity: 0; pointer-events: none; animation: none; }
+  @keyframes aparece-intro {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .intro .antetitulo {
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: .42em;
+    text-indent: .42em;
+    color: var(--oro);
+  }
+  .intro .nombres {
+    margin: 22px 0 18px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--oro);
+  }
+  .intro .nombres span {
+    display: block;
+    font-size: clamp(40px, 13vw, 58px);
+    letter-spacing: .1em;
+    text-indent: .1em;
+  }
+  .intro .nombres em {
+    display: block;
+    margin: 4px 0 6px;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(40px, 12vw, 54px);
+    color: var(--oro-claro);
+  }
+  .intro .linea {
+    width: 56px; height: 1px;
+    margin: 14px auto 38px;
+    background: var(--oro-claro);
+    opacity: .7;
+  }
+  .intro .entrar {
+    display: block;
+    width: min(280px, 78vw);
+    padding: 15px 10px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: .24em;
+    text-indent: .24em;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .intro .entrar:active { transform: scale(.97); }
+  /* mismo bronce satinado del botón "Confirmar asistencia" */
+  .intro .con-musica {
+    border: 1px solid #b08a63;
+    background: linear-gradient(180deg, #caa37f 0%, #b88d66 55%, #a97f5a 100%);
+    color: #fbf4ea;
+    box-shadow: 0 6px 16px rgba(120,84,50,.28), inset 0 1px 0 rgba(255,240,220,.45);
+  }
+  /* mismo trazo fino de los botones "Cómo llegar" */
+  .intro .sin-musica {
+    margin-top: 14px;
+    border: 1px solid rgba(176,141,94,.75);
+    background: rgba(255,252,247,.55);
+    color: var(--oro);
+  }
+  .intro .entrar svg { width: 15px; height: 15px; vertical-align: -2px; margin-right: 8px; }
+
+  /* Portada: queda oculta bajo la intro y aparece recién cuando la intro ya se fue */
+  body.con-intro .portada > img { opacity: 0; animation: none; }
+  .portada > img { animation-delay: .9s; }
+
+  /* Botón flotante de música (nota musical) */
   .btn-musica {
     position: fixed;
     right: max(16px, calc(50vw - 240px + 16px));
     bottom: max(16px, env(safe-area-inset-bottom));
     z-index: 40;
-    width: 46px; height: 46px;
+    width: 48px; height: 48px;
     border-radius: 50%;
     border: 1px solid rgba(176,141,94,.7);
-    background: rgba(250,246,240,.9);
+    background: rgba(252,248,242,.92);
     color: var(--oro);
-    font-size: 21px; line-height: 1;
     display: none; align-items: center; justify-content: center;
     cursor: pointer;
     box-shadow: 0 4px 14px rgba(90,70,50,.22);
     -webkit-tap-highlight-color: transparent;
   }
+  .btn-musica svg { width: 22px; height: 22px; display: block; }
   .btn-musica.visible { display: flex; }
-  .btn-musica.pausada { opacity: .6; text-decoration: line-through; }
+  /* sonando: un aro dorado late alrededor */
+  .btn-musica::after {
+    content: "";
+    position: absolute; inset: -1px;
+    border-radius: 50%;
+    border: 1px solid rgba(176,141,94,.6);
+    animation: aro 2.2s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes aro {
+    from { transform: scale(1);   opacity: .9; }
+    to   { transform: scale(1.5); opacity: 0; }
+  }
+  /* pausada: sin aro y con la nota tachada */
+  .btn-musica.pausada::after { display: none; }
+  .btn-musica .tachado { opacity: 0; transition: opacity .2s; }
+  .btn-musica.pausada .tachado { opacity: 1; }
+  .btn-musica.pausada svg .nota { opacity: .55; }
 
   /* Modal datos bancarios */
   .modal {
@@ -296,10 +412,28 @@
   .toast.visible { opacity: 1; transform: translate(-50%, 0); }
 </style>
 </head>
-<body>
+<body class="con-intro">
+
+<!-- Intro -->
+<div class="intro" id="intro">
+  <div class="contenido">
+    <p class="antetitulo">NOS CASAMOS</p>
+    <h1 class="nombres"><span>CÉSAR</span><em>&amp;</em><span>MARINA</span></h1>
+    <div class="linea"></div>
+    <button class="entrar con-musica" id="entrarConMusica">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 17.5a3 3 0 1 1-2-2.83V5.2l12-2.4v12.7a3 3 0 1 1-2-2.83V6.7L9 8.3z"/></svg>ENTRAR CON MÚSICA
+    </button>
+    <button class="entrar sin-musica" id="entrarSinMusica">ENTRAR SIN MÚSICA</button>
+  </div>
+</div>
 
 <audio id="musica" src="assets/musica.mp3" loop preload="auto"></audio>
-<button class="btn-musica" id="btnMusica" aria-label="Pausar música">&#9835;</button>
+<button class="btn-musica" id="btnMusica" aria-label="Pausar música">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path class="nota" fill="currentColor" d="M9 17.5a3 3 0 1 1-2-2.83V5.2l12-2.4v12.7a3 3 0 1 1-2-2.83V6.7L9 8.3z"/>
+    <line class="tachado" x1="3.5" y1="3.5" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+  </svg>
+</button>
 
 <main>
 
@@ -491,21 +625,23 @@
     if (e.currentTarget.getAttribute('href') === '#') e.preventDefault();
   });
 
-  // ===== Música =====
-  // Arranca con el primer toque en la invitación (los celulares no permiten reproducir sin un gesto)
+  // ===== Intro y música =====
+  const intro = document.getElementById('intro');
   const audio = document.getElementById('musica');
   const btnMusica = document.getElementById('btnMusica');
-  let pausadaAMano = false;
-  function sonar() {
-    audio.play().then(() => btnMusica.classList.add('visible')).catch(() => {});
+  function entrar(conMusica) {
+    intro.classList.add('abriendo');
+    document.body.classList.remove('con-intro');
+    window.scrollTo(0, 0);
+    // la nota queda siempre a mano: si entraron sin música, la pueden prender desde ahí
+    btnMusica.classList.add('visible');
+    if (conMusica) audio.play().catch(() => btnMusica.classList.add('pausada'));
+    else btnMusica.classList.add('pausada');
   }
-  function primerToque(e) {
-    if (e.target.closest('#btnMusica')) return;
-    if (!pausadaAMano) sonar();
-  }
-  document.addEventListener('pointerdown', primerToque, { once: true });
+  document.getElementById('entrarConMusica').addEventListener('click', () => entrar(true));
+  document.getElementById('entrarSinMusica').addEventListener('click', () => entrar(false));
   btnMusica.addEventListener('click', () => {
-    if (audio.paused) { pausadaAMano = false; audio.play(); } else { pausadaAMano = true; audio.pause(); }
+    if (audio.paused) audio.play(); else audio.pause();
   });
   audio.addEventListener('play', () => { btnMusica.classList.remove('pausada'); btnMusica.setAttribute('aria-label', 'Pausar música'); });
   audio.addEventListener('pause', () => { btnMusica.classList.add('pausada'); btnMusica.setAttribute('aria-label', 'Reproducir música'); });
